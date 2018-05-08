@@ -33,6 +33,7 @@ $(function() {
     */
 
     it('contain URLs', function() {
+      // Iterate through all feeds and chech that they have a URL
       for (const feed of allFeeds) {
         expect(feed.url).toBeDefined();
         expect(feed.url).not.toBe("");
@@ -46,6 +47,7 @@ $(function() {
     */
 
     it('have names', function() {
+      // Iterate through all feed and check that they have a name
       for (const feed of allFeeds) {
         expect(feed.name).toBeDefined();
         expect(feed.name).not.toBe("");
@@ -57,7 +59,6 @@ $(function() {
   /* TODO: Write a new test suite named "The menu" */
 
   describe("The menu", function() {
-    let body = $('body');
     const menuIcon = $('.menu-icon-link');
 
     /* TODO: Write a test that ensures the menu element is
@@ -66,7 +67,8 @@ $(function() {
     * hiding/showing of the menu element.
     */
 
-    it('is hidden by default', function() {
+    it('should be hidden by default', function() {
+      // We expect the body to initially contain the class that hides the menu
       expect($('body').hasClass("menu-hidden")).toEqual(true);
     });
 
@@ -75,6 +77,7 @@ $(function() {
     * should have two expectations: does the menu display when
     * clicked and does it hide when clicked again.
     */
+
     it('should change visibility when clicked', function() {
       menuIcon.click();
       expect($('body').hasClass("menu-hidden")).toEqual(false);
@@ -90,7 +93,7 @@ $(function() {
   describe('Initial Entries', function() {
     const feedContainer = $(".feed");
     beforeEach(function(done) {
-      // Before the test run the loadFeed function and wait for it to complete before continuing
+      // Before the test, run the loadFeed function and wait for it to complete before continuing
       loadFeed(0, function() {
         done();
       });
@@ -105,6 +108,7 @@ $(function() {
 
     it("At least one entry should exist after loadFeed functions has been called", function(done) {
       let entries = feedContainer.find(".entry");
+      // Find all descendants of the feed container that have the "entry" class
       expect(entries.length).toBeGreaterThan(0);
       done();
       // Here the done function is used to signal that this test relies upon the asynchronus execution
@@ -114,14 +118,18 @@ $(function() {
 
   describe('New Feed Selection', function() {
     let previousContent, newContent, previousContentArray, newContentArray, oldFeeds, newFeeds;
-    // First let's save the default feed selection
-    previousContent = document.getElementsByClassName("feed");
-    previousContentArray = [...previousContent];
-    for (element of previousContentArray) {
-      oldFeeds += element.innerHTML;
-    }
+
     // Before the test let's load a different feed selection, the default one is the one with 0 as argument
     beforeEach(function(done) {
+      loadFeed(0, function() {
+        // Load the first feed and save it's feed selection
+        previousContent = document.getElementsByClassName("feed");
+        previousContentArray = [...previousContent];
+        for (element of previousContentArray) {
+          oldFeeds += element.innerHTML;
+        }
+      });
+      // Now load a different feed selection
       loadFeed(1, function() {
         done();
       });
@@ -139,7 +147,7 @@ $(function() {
       for (element of newContentArray) {
         newFeeds += element.innerHTML;
       }
-      // We expect that the new selection loaded is different than the previous one
+      // We expect that the new selection loaded is different than the first one
       expect(newFeeds).not.toBe(oldFeeds);
       done();
     });
