@@ -124,10 +124,11 @@ $(function() {
         for (element of previousContentArray) {
           oldFeeds += element.innerHTML;
         }
-      });
-      // Now load a different feed selection
-      loadFeed(1, function() {
-        done();
+        /* Now load a different feed selection, we nest it in the previous one to achieve
+        ansychronus code execution thus ensure feed 1 is loaded after feed 0 */
+        loadFeed(1, function() {
+          done();
+        });
       });
     });
 
