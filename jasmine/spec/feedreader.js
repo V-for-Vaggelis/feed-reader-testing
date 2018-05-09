@@ -33,7 +33,8 @@ $(function() {
       // Iterate through all feeds and chech that they have a URL
       for (const feed of allFeeds) {
         expect(feed.url).toBeDefined();
-        expect(feed.url).not.toBe("");
+        // Now lets ensure that the feed.url string isn't null or empty
+        expect(feed.url.length).toBeGreaterThan(0);
       }
     });
 
@@ -47,7 +48,7 @@ $(function() {
       // Iterate through all feed and check that they have a name
       for (const feed of allFeeds) {
         expect(feed.name).toBeDefined();
-        expect(feed.name).not.toBe("");
+        expect(feed.name.length).toBeGreaterThan(0);
       }
     });
   });
